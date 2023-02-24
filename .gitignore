@@ -130,3 +130,5 @@ dmypy.json
 
 J2ME-archives*
 J2ME-Archives*
+*.zip
+*.json

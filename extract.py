@@ -1,3 +1,10 @@
+# ______________________________________________________________________________
+#
+#  reJARchiver - extract.py
+#
+#  Recursively extracts various archive types.
+# ______________________________________________________________________________
+#
 import os, sys, shutil
 from zipfile import ZipFile
 from unrar.rarfile import RarFile
