@@ -172,7 +172,8 @@ def explore(path):
 	files = [x[2] for x in os.walk(search_dir)]
 
 	for subdir in subdirs:
-		explore(subdir)
+		if subdir != search_dir:
+			explore(subdir)
 	
 	for file in files:
 		# Test if the file can be opened with zipfile and check if there is a MANIFEST.MF file
@@ -193,3 +194,4 @@ if __name__ == "__main__":
 	if len(sys.argv) < 2:
 		print("Usage: reJARchiver.py <directory>")
 		sys.exit()
+	explore(sys.argv[1])

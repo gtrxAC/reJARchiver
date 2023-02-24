@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+J2ME-archives*
+J2ME-Archives*
