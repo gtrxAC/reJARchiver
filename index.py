@@ -91,31 +91,30 @@ def index(path, outfile):
 		[dirname, folders, files] = dir
 
 		for file in files:
-			if file.endswith('.jar'):
-				filepath = os.path.join(dirname, file)
-				print(f"Reading {filepath}")
+			filepath = os.path.join(dirname, file)
+			print(f"Reading {filepath}")
 
-				try:
-					with ZipFile(filepath) as zip:
-						mf = manifest_find(zip)
-						if not mf:
-							print("No manifest found")
-							continue
+			try:
+				with ZipFile(filepath) as zip:
+					mf = manifest_find(zip)
+					if not mf:
+						print("No manifest found")
+						continue
 
-						_, mf = text_decode(mf)
-						mf = manifest_read(mf)
+					_, mf = text_decode(mf)
+					mf = manifest_read(mf)
 
-						if 'MIDlet-1' not in mf:
-							print("Doesn't seem to be a J2ME midlet")
-							continue
+					if 'MIDlet-1' not in mf:
+						print("Doesn't seem to be a J2ME midlet")
+						continue
 
-						md5 = md5sum(filepath)
-						if md5 not in list:
-							list[md5] = mf
-							list[md5]["paths"] = []
-						list[md5]["paths"].append(filepath)
-				except:
-					print("Invalid zip file")
+					md5 = md5sum(filepath)
+					if md5 not in list:
+						list[md5] = mf
+						list[md5]["paths"] = []
+					list[md5]["paths"].append(filepath)
+			except:
+				print("Invalid zip file")
 
 	with open(outfile, 'w') as out:
 		out.write(json.dumps(list))
