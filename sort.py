@@ -29,7 +29,7 @@ def sort(indexname, folder):
 			os.makedirs(path, exist_ok=True)
 
 			# Compose the file name based on the naming scheme:
-			# Midlet-Name [Midlet-Vendor] (vX.Y.Z) {MainClass1, MainClass2} md5sum.jar
+			# Midlet-Name [Midlet-Vendor] (vX.Y.Z) {MainClass1, MainClass2, ...} md5sum.jar
 			name = ""
 			if "MIDlet-Name" in jar: name += f"{jar['MIDlet-Name']}"
 			if "MIDlet-Vendor" in jar: name += f" [{jar['MIDlet-Vendor']}]"
@@ -37,9 +37,12 @@ def sort(indexname, folder):
 
 			if "MIDlet-1" in jar and len(jar["MIDlet-1"].split(",")) > 2:
 				name += " {" + jar["MIDlet-1"].split(",")[2].strip()
-				
-			if "MIDlet-2" in jar and len(jar["MIDlet-2"].split(",")) > 2:
-				name += ", " + jar["MIDlet-2"].split(",")[2].strip()
+
+			# Some jars have more than one midlet, get the main class of each one
+			i = 2
+			while f"MIDlet-{i}" in jar and len(jar[f"MIDlet-{i}"].split(",")) > 2:
+				name += ", " + jar[f"MIDlet-{i}"].split(",")[2].strip()
+				i += 1
 
 			name += "} " + f"{hash}.jar"
 			print(name)
