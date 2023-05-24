@@ -21,6 +21,9 @@ def sort(indexname, folder):
 			if "MIDlet-Name" in jar: jar['MIDlet-Name'] = re.sub(illegal_chars, '', jar['MIDlet-Name'])
 			if "MIDlet-Vendor" in jar: jar['MIDlet-Vendor'] = re.sub(illegal_chars, '', jar['MIDlet-Vendor'])
 
+			# Some broken JARs don't have a MIDlet-Name, just skip them
+			if "MIDlet-Name" not in jar: continue
+
 			# Make a folder for this MIDlet-Name (one folder can have many jars w same name)
 			# If already exists (another jar w same name has been scanned) that's fine
 			# Note: '.' at the end of a folder name isn't allowed?
