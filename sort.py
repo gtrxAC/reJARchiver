@@ -12,7 +12,7 @@ def sort(indexname, folder):
 	os.makedirs(folder, exist_ok=True)
 	
 	with open(indexname) as indexfile:
-		illegal_chars = r'[\\/:\*\?"<>\|]'
+		illegal_chars = r'[\\/:\*\?"<>\|\u0000]'
 		periods_at_end = r'\.*$'
 		index = json.loads(indexfile.read())
 		
