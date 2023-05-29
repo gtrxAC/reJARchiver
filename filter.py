@@ -54,7 +54,8 @@ def filterIndex(indexname):
             checkEntry(jar, hash, index)
             total += 1
 
-    for hash in removelist: index.pop(hash)
+    for hash in removelist:
+        if hash in index: index.pop(hash)
 
     outname = indexname[:indexname.rfind(".")] + '_filtered.json'
 
