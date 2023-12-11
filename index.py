@@ -15,7 +15,7 @@ list = {}
 #Input: filename string
 def md5sum(filename, blocksize=65536):
 	"""Gets the MD5 hash of a file."""
-	hash = hashlib.md5()
+	hash = hashlib.crc32()
 	with open(filename, "rb") as f:
 		for block in iter(lambda: f.read(blocksize), b""):
 			hash.update(block)

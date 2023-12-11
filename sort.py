@@ -6,7 +6,7 @@
 #  named according to the naming scheme.
 # ______________________________________________________________________________
 #
-import os, sys, json, re
+import os, sys, json, re, shutil
 
 def sort(indexname, folder):
 	os.makedirs(folder, exist_ok=True)
@@ -53,7 +53,8 @@ def sort(indexname, folder):
 			# Move the first copy of the file to the output folder with the naming scheme
 			# Ignore failures (in case file is already moved)
 			try:
-				os.rename(jar["paths"][0], os.path.join(path, name))
+				# os.rename(jar["paths"][0], os.path.join(path, name))
+				shutil.copy(jar["paths"][0], os.path.join(path, name))
 			except:
 				pass
 
