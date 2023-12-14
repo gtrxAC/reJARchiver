@@ -32,7 +32,7 @@ def sort(indexname, folder):
 			os.makedirs(path, exist_ok=True)
 
 			# Compose the file name based on the naming scheme:
-			# Midlet-Name [Midlet-Vendor] (vX.Y.Z) {MainClass1, MainClass2, ...} md5sum.jar
+			# Midlet-Name [Midlet-Vendor] (vX.Y.Z) {MainClass1, MainClass2, ...} crc32.jar
 			name = ""
 			if "MIDlet-Name" in jar: name += f"{jar['MIDlet-Name']}"
 			if "MIDlet-Vendor" in jar: name += f" [{jar['MIDlet-Vendor']}]"
