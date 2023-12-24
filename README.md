@@ -21,3 +21,7 @@ At the same time, we also do de-duping of files based on the hashes.
 
 ### 4. Sort
 Sort each JAR file into directories based on the app's name, and use a standard naming scheme, so variants of the same game are easy to find.
+
+### Other scripts
+Some miscellaneous scripts are provided in this repo for further data analysis:
+* vendor_count.py: Outputs a list of MIDlet vendors in the JSON index sorted by frequency.
