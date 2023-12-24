@@ -7,19 +7,21 @@
 # ______________________________________________________________________________
 #
 import os, sys
-import json, hashlib, chardet
+import json, zlib, chardet
 from zipfile import ZipFile
 
 list = {}
 
+#Calculate CRC32 checksum of a file
 #Input: filename string
-def md5sum(filename, blocksize=65536):
-	"""Gets the MD5 hash of a file."""
-	hash = hashlib.md5()
-	with open(filename, "rb") as f:
-		for block in iter(lambda: f.read(blocksize), b""):
-			hash.update(block)
-	return hash.hexdigest()
+#Output: CRC32 of the file as hex string, as in "0123ABCD"
+def crc32_sum(filename, blocksize=4096):
+	"""Gets the CRC32 checksum of a file."""
+	result = 0
+	with open(filename, 'rb') as file:
+		for chunk in iter(lambda: file.read(blocksize), b""):
+			result = zlib.crc32(chunk, result)
+	return format(result & 0xFFFFFFFF, '08X')
 
 #Find the MANIFEST.MF file. If it's not found in the standard path, search for it case-insensitively.
 #Input: zf object
@@ -86,7 +88,7 @@ def manifest_read(manifest):
 	return manifest_dict
 
 def index(path, outfile):
-	"""Creates a JSON index of JAR files based on their MD5 hashes and manifest info."""
+	"""Creates a JSON index of JAR files based on their CRC32 sums and manifest info."""
 	for dir in os.walk(path):
 		[dirname, folders, files] = dir
 
@@ -108,11 +110,11 @@ def index(path, outfile):
 						print("Doesn't seem to be a J2ME midlet")
 						continue
 
-					md5 = md5sum(filepath)
-					if md5 not in list:
-						list[md5] = mf
-						list[md5]["paths"] = []
-					list[md5]["paths"].append(filepath)
+					crc32 = crc32_sum(filepath)
+					if crc32 not in list:
+						list[crc32] = mf
+						list[crc32]["paths"] = []
+					list[crc32]["paths"].append(filepath)
 			except:
 				print("Invalid zip file")
 
